@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import sg.ed.nus.iss.ssf_13w.validation.ValidDob;
 
 public class Contact {
     private static final Random RANDOM = new Random();
@@ -27,6 +28,7 @@ public class Contact {
     private String phoneNo;
 
     @Past(message = "Date of birth entered is not in the past.")
+    @ValidDob
     private LocalDate dob;
 
     public Contact() {
