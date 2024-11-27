@@ -6,6 +6,7 @@
     <title>SSF Day13 Workshop</title>
 </head>
 <body>
+    <a href="/contact/add">Add new contact</a>
     <div class="data">
         <table>
             <thead>
@@ -15,6 +16,12 @@
                 <th>DOB</th>
             </thead>
             <tbody>
+                <tr th:each="contact : ${contacts}">
+                    <td th:text="${contact.name}"></td>
+                    <td th:text="${contact.email}"></td>
+                    <td th:text="${contact.phoneNo}"></td>
+                    <td th:text="${contact.dob}"></td>
+                </tr>
             </tbody>
         </table>
     </div>

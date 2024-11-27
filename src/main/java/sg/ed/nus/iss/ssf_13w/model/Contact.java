@@ -1,6 +1,7 @@
 package sg.ed.nus.iss.ssf_13w.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 import jakarta.validation.constraints.Email;
@@ -42,6 +43,18 @@ public class Contact {
         this.dob = dob;
     }
 
+    public Contact(String name, String email, String phoneNo, LocalDate dob, String id) {
+        if (id == null || id.equals("")) {
+            this.id = String.format("%08x", RANDOM.nextLong(0x50000000));
+        } else {
+            this.id = id;
+        }
+        this.name = name;
+        this.email = email;
+        this.phoneNo = phoneNo;
+        this.dob = dob;
+    }
+
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
 
@@ -56,4 +69,11 @@ public class Contact {
 
     public LocalDate getDob() {return dob;}
     public void setDob(LocalDate dob) {this.dob = dob;}
+
+    @Override
+    public String toString() {
+        return String.format("%s,%s,%s,%s,%s",
+            id, name, email, phoneNo, dob.format(DateTimeFormatter.ISO_DATE)
+        );
+    }
 }

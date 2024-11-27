@@ -32,7 +32,6 @@ public class Ssf13wApplication {
 		}
 
 		String dataDir = cliOpts.getOptionValues("dataDir").getFirst();
-		
 		Properties properties = new Properties();
 		properties.put("dataDir", dataDir);
 		app.setDefaultProperties(properties);

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form method="post" action="/contact/add" th:object="${contact}">
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" id="name">
+        <p th:if="#{fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+        <br>
+
+        <label for="email">Email</label>
+        <input type="text" th:field="*{email}" id="email">
+        <p th:if="#{fields.hasErrors('email')}" th:errors="*{email}"></p>
+        
+        <br>
+
+        <label for="phoneNo">Phone number</label>
+        <input type="text" th:field="*{phoneNo}" id="phoneNo">
+        <p th:if="#{fields.hasErrors('phoneNo')}" th:errors="*{phoneNo}"></p>
+
+        <br>
+
+        <label for="dob">Date of birth</label>
+        <input type="date" th:field="*{dob}" id="dob">
+        <p th:if="#{fields.hasErrors('dob')}" th:errors="*{dob}"></p>
+
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
