@@ -1,6 +1,5 @@
 package sg.ed.nus.iss.ssf_13w;
 
-import java.io.File;
 import java.util.Properties;
 import java.util.logging.Logger;
 

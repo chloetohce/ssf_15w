@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,6 @@ public class ContactRepository {
 
     private static final Logger logger = Logger.getLogger(ContactRepository.class.getName());
 
-    @Autowired
     public ContactRepository(@Value("${dataDir}") String dataDir) {
         File db = new File(dataDir);
         if (!db.exists()) {
