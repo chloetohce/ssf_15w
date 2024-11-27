@@ -55,6 +55,14 @@ public class Contact {
         this.dob = dob;
     }
 
+    public static Contact of(String data) {
+        String[] dataArr = data.split(",");
+        String[] dobArr = dataArr[4].split("-");
+        LocalDate dob = LocalDate.of(Integer.parseInt(dobArr[0]), Integer.parseInt(dobArr[1]), Integer.parseInt(dobArr[2]));
+
+        return new Contact(dataArr[1], dataArr[2], dataArr[3], dob, dataArr[0]);
+    }
+
     public String getId() {return id;}
     public void setId(String id) {this.id = id;}
 

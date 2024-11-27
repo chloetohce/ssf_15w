@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,8 +24,7 @@ import sg.ed.nus.iss.ssf_13w.model.Contact;
 @Repository
 public class ContactRepository {
     private static final Logger logger = Logger.getLogger(ContactRepository.class.getName());
-    private final List<Contact> contacts;
-    private final File data;
+    private final Path path;
 
     public ContactRepository(@Value("${dataDir}") String dataDir) {
         Path p = Paths.get(dataDir);
@@ -35,55 +35,54 @@ public class ContactRepository {
                 logger.log(Level.SEVERE, "Error creating file. ");
             }
         }
-        
-        p = p.resolve("contacts.csv");
-        File f = p.toFile();
-        this.data = f;
-        if (!f.exists()) {
-            try {
-                f.createNewFile();
-            } catch (IOException e) {
-                logger.log(Level.SEVERE, "Error creating csv file.");
-            }
-        }
-        this.contacts = getData(f);
+        this.path = p;
     }
 
     public List<Contact> getAll() {
-        return contacts;
+        List<Contact> allContacts = new ArrayList<>();
+        try {
+            List<File> files = Files.walk(path)
+                .filter(Files::isRegularFile)
+                .map(Path::toFile)
+                .toList();
+            for (File f : files) {
+                BufferedReader in = new BufferedReader(new FileReader(f));
+                String data = in.readLine();
+                allContacts.add(Contact.of(data));
+                in.close();
+            }
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error reading data directory");
+        }
+        return allContacts;
     }
 
     public void add(Contact c) {
-        contacts.add(c);
-        saveData();
-    }
-
-    private List<Contact> getData(File db) {
-        List<Contact> tempContacts = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader(db))) {
-            String line = "";
-            while ((line = br.readLine()) != null) {
-                String[] dataArr = line.split(",");
-                String[] dobArr = dataArr[4].split("-");
-                LocalDate dob = LocalDate.of(Integer.parseInt(dobArr[0]), Integer.parseInt(dobArr[1]), Integer.parseInt(dobArr[2]));
-                tempContacts.add(
-                    new Contact(dataArr[1], dataArr[2], dataArr[3], dob, dataArr[0])
-                );
-            }
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Error reading data.");
+        Path newContactPath = path.resolve(c.getId() + ".txt");
+        File newContact = newContactPath.toFile();
+        try {
+            newContact.createNewFile();
+            BufferedWriter in = new BufferedWriter(new FileWriter(newContact));
+            in.write(c.toString());
+            in.flush();
+            in.close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error creating new contact file.");
         }
-        return tempContacts;
     }
 
-    private void saveData() {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(data, false))) {
-            for (Contact c : contacts) {
-                bw.write(c.toString());
-                bw.newLine();
-            }
-        } catch (Exception e) {
-            logger.log(Level.WARNING, "Error saving data.");
+    public Optional<Contact> findContactById(String id) {
+        Path contactPath = path.resolve(id + ".txt");
+        File contactFile = contactPath.toFile();
+
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(contactFile));
+            Contact contact = Contact.of(in.readLine());
+            in.close();
+            return Optional.of(contact);
+        } catch (IOException e) {
+            logger.log(Level.WARNING, "Error reading file for id " + id);
+            return Optional.empty();
         }
     }
 }

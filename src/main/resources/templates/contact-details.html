@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="data" th:object="${contact}">
+        <p>Name: <span th:text="*{name}"></span></p> <br>
+        <p>Id: <span th:text="*{id}"></span></p> <br>
+        <p>Email: <span th:text="*{email}"></span></p> <br>
+        <p>Phone No.: <span th:text="*{phoneNo}"></span></p> <br>
+        <p>Date of birth: <span th:text="*{dob}"></span></p> <br>
+    </div>
+</body>
+</html>

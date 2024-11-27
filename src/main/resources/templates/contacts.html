@@ -14,6 +14,7 @@
                 <th>Email</th>
                 <th>Phone No.</th>
                 <th>DOB</th>
+                <th>Details</th>
             </thead>
             <tbody>
                 <tr th:each="contact : ${contacts}">
@@ -21,6 +22,7 @@
                     <td th:text="${contact.email}"></td>
                     <td th:text="${contact.phoneNo}"></td>
                     <td th:text="${contact.dob}"></td>
+                    <td><a th:href="@{/contact/{cid} (cid=${contact.id})}">See more</a> </td>
                 </tr>
             </tbody>
         </table>
