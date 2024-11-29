@@ -1,4 +1,4 @@
-package sg.ed.nus.iss.ssf_13w.controller;
+package sg.ed.nus.iss.ssf_15w.controller;
 
 import java.util.Optional;
 
@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
-import sg.ed.nus.iss.ssf_13w.model.Contact;
-import sg.ed.nus.iss.ssf_13w.service.ContactService;
-import org.springframework.web.bind.annotation.RequestParam;
+import sg.ed.nus.iss.ssf_15w.model.Contact;
+import sg.ed.nus.iss.ssf_15w.service.ContactService;
 
 
 @Controller
@@ -51,8 +50,8 @@ public class ContactController {
     
     @GetMapping("/{id}")
     public String indivContactDetails(@PathVariable("id") String id, Model model) {
-        Optional<Contact> contact = contactService.findContactById(id);
-        model.addAttribute("contact", contact.get());
+        Contact contact = contactService.findContactById(id);
+        model.addAttribute("contact", contact);
         return "contact-details";
     }
     

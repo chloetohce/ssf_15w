@@ -1,4 +1,4 @@
-package sg.ed.nus.iss.ssf_13w.model;
+package sg.ed.nus.iss.ssf_15w.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import sg.ed.nus.iss.ssf_13w.validation.ValidDob;
+import sg.ed.nus.iss.ssf_15w.validation.ValidDob;
 
 public class Contact {
     private static final Random RANDOM = new Random();
