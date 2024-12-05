@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import jakarta.annotation.PostConstruct;
 import sg.ed.nus.iss.ssf_15w.utilities.Redis;
 
 @Repository
@@ -18,6 +19,14 @@ public class ContactRedisRepository {
     @Qualifier(Redis.TEMPLATE)
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    private static HashOperations<String, String, String> ops;
+
+    @PostConstruct
+    public void init() {
+        ops = redisTemplate.opsForHash();
+    }
+    
 
     public Map<String, String> getAll(String key) {
         HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
@@ -32,8 +41,7 @@ public class ContactRedisRepository {
     }
 
     public String findById(String key, String id) {
-        HashOperations<String, String, String> hashOps = redisTemplate.opsForHash();
         
-        return hashOps.get(key, id);
+        return ops.get(key, id);
     }
 }
